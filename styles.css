@@ -4,6 +4,10 @@
   --bg-dark: #0b0b0b;
   --text-light: #ffffff;
   --text-secondary: #b0b0b0;
+
+  /* Переменные для анимации заднего фона */
+  --hero-glow-x: 50%;
+  --hero-glow-y: 50%;
 }
 
 /* Сброс базовых стилей */
@@ -39,7 +43,7 @@ body {
   overflow: hidden;
 }
 
-/* Лёгкий градиентный эффект на фоне */
+/* Лёгкий градиентный эффект на фоне, реагирующий на положение мыши */
 .hero::before {
   content: "";
   position: absolute;
@@ -48,10 +52,31 @@ body {
   right: 0;
   bottom: 0;
   background: radial-gradient(
-    circle at 50% 50%,
+    circle at var(--hero-glow-x) var(--hero-glow-y),
     rgba(0, 212, 255, 0.1) 0%,
     transparent 70%
   );
+  pointer-events: none;
+}
+
+/* Дополнительный мягкий «шум» / свечение на фоне (автономная анимация) */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(0, 212, 255, 0.07),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.04),
+      transparent 65%
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: heroGlowFloat 12s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -132,6 +157,22 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Автономная лёгкая анимация фона */
+@keyframes heroGlowFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translate3d(-10px, 10px, 0) scale(1.03);
+    opacity: 0.18;
+  }
+  100% {
+    transform: translate3d(10px, -10px, 0) scale(1.05);
+    opacity: 0.14;
   }
 }
 
