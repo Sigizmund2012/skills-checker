@@ -1,9 +1,10 @@
 /* CSS переменные для удобства настройки */
 :root {
-  --accent: #00d4ff;
-  --bg-dark: #0b0b0b;
-  --text-light: #ffffff;
-  --text-secondary: #b0b0b0;
+  --accent: #b8a9c9; /* Мягкий лавандовый */
+  --bg-dark: #faf8f5; /* Тёплый кремовый */
+  --bg-secondary: #f5f3f0; /* Светло-бежевый для градиента */
+  --text-light: #2d2d2d; /* Тёмно-серый для основного текста */
+  --text-secondary: #6b6b6b; /* Средне-серый для вторичного текста */
 
   /* Переменные для анимации заднего фона */
   --hero-glow-x: 50%;
@@ -36,7 +37,7 @@ body {
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
-    #1a1a1a 50%,
+    var(--bg-secondary) 50%,
     var(--bg-dark) 100%
   );
   position: relative;
@@ -53,7 +54,7 @@ body {
   bottom: 0;
   background: radial-gradient(
     circle at var(--hero-glow-x) var(--hero-glow-y),
-    rgba(0, 212, 255, 0.1) 0%,
+    rgba(184, 169, 201, 0.15) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -66,15 +67,15 @@ body {
   inset: -20%;
   background: radial-gradient(
       circle at 10% 20%,
-      rgba(0, 212, 255, 0.07),
+      rgba(184, 169, 201, 0.12),
       transparent 60%
     ),
     radial-gradient(
       circle at 80% 80%,
-      rgba(255, 255, 255, 0.04),
+      rgba(168, 197, 208, 0.1),
       transparent 65%
     );
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
   opacity: 0;
   animation: heroGlowFloat 12s ease-in-out infinite alternate;
   pointer-events: none;
@@ -130,7 +131,7 @@ body {
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--bg-dark);
+  color: #ffffff;
   background-color: var(--accent);
   text-decoration: none;
   border-radius: 50px;
@@ -143,9 +144,9 @@ body {
 
 /* Эффект при наведении на кнопку */
 .cta-button:hover {
-  background-color: #00b8e6;
+  background-color: #a899c0;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(184, 169, 201, 0.4);
 }
 
 .cta-button:active {
@@ -164,15 +165,15 @@ body {
 @keyframes heroGlowFloat {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.12;
+    opacity: 0.15;
   }
   50% {
     transform: translate3d(-10px, 10px, 0) scale(1.03);
-    opacity: 0.18;
+    opacity: 0.22;
   }
   100% {
     transform: translate3d(10px, -10px, 0) scale(1.05);
-    opacity: 0.14;
+    opacity: 0.18;
   }
 }
 
