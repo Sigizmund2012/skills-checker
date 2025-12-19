@@ -25,10 +25,11 @@ function initHeroBackgroundInteraction() {
     const x = ((lastClientX - rect.left) / rect.width) * 100;
     const y = ((lastClientY - rect.top) / rect.height) * 100;
 
-    // Немного ограничим значения, чтобы подсветка не «убегала» слишком далеко.
+    // Ограничиваем значения, чтобы подсветка не «убегала» слишком далеко.
     const clampedX = Math.max(0, Math.min(100, x));
     const clampedY = Math.max(0, Math.min(100, y));
 
+    // Плавно обновляем позицию для более заметного эффекта
     hero.style.setProperty("--hero-glow-x", clampedX + "%");
     hero.style.setProperty("--hero-glow-y", clampedY + "%");
 

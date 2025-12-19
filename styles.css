@@ -44,7 +44,7 @@ body {
   overflow: hidden;
 }
 
-/* Лёгкий градиентный эффект на фоне, реагирующий на положение мыши */
+/* Градиентный эффект на фоне, реагирующий на положение мыши */
 .hero::before {
   content: "";
   position: absolute;
@@ -53,31 +53,38 @@ body {
   right: 0;
   bottom: 0;
   background: radial-gradient(
-    circle at var(--hero-glow-x) var(--hero-glow-y),
-    rgba(184, 169, 201, 0.15) 0%,
+    circle 400px at var(--hero-glow-x) var(--hero-glow-y),
+    rgba(184, 169, 201, 0.35) 0%,
+    rgba(168, 197, 208, 0.2) 40%,
     transparent 70%
   );
+  transition: background 0.3s ease-out;
   pointer-events: none;
 }
 
-/* Дополнительный мягкий «шум» / свечение на фоне (автономная анимация) */
+/* Дополнительное свечение на фоне (автономная анимация) */
 .hero::after {
   content: "";
   position: absolute;
-  inset: -20%;
+  inset: -30%;
   background: radial-gradient(
-      circle at 10% 20%,
-      rgba(184, 169, 201, 0.12),
-      transparent 60%
+      circle 500px at 20% 30%,
+      rgba(184, 169, 201, 0.25),
+      transparent 50%
     ),
     radial-gradient(
-      circle at 80% 80%,
-      rgba(168, 197, 208, 0.1),
-      transparent 65%
+      circle 450px at 75% 70%,
+      rgba(168, 197, 208, 0.2),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle 400px at 50% 50%,
+      rgba(200, 180, 220, 0.15),
+      transparent 60%
     );
-  mix-blend-mode: multiply;
-  opacity: 0;
-  animation: heroGlowFloat 12s ease-in-out infinite alternate;
+  mix-blend-mode: normal;
+  opacity: 1;
+  animation: heroGlowFloat 15s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -161,19 +168,23 @@ body {
   }
 }
 
-/* Автономная лёгкая анимация фона */
+/* Автономная анимация фона */
 @keyframes heroGlowFloat {
   0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.15;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
   }
-  50% {
-    transform: translate3d(-10px, 10px, 0) scale(1.03);
-    opacity: 0.22;
+  33% {
+    transform: translate3d(-30px, 20px, 0) scale(1.08) rotate(2deg);
+    opacity: 1;
+  }
+  66% {
+    transform: translate3d(25px, -25px, 0) scale(1.05) rotate(-1deg);
+    opacity: 1;
   }
   100% {
-    transform: translate3d(10px, -10px, 0) scale(1.05);
-    opacity: 0.18;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
   }
 }
 
