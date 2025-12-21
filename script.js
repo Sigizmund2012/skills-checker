@@ -75,9 +75,25 @@ function initSkillsSection() {
 
   // Обработчик клика на карточки для разворачивания/сворачивания
   skillsGrid.addEventListener("click", function (event) {
+    // Если клик по кнопке удаления, не разворачиваем карточку
+    if (event.target.closest(".delete-skill-button")) {
+      return;
+    }
+
     const card = event.target.closest(".skill-card");
     if (card) {
       toggleSkillCard(card);
+    }
+  });
+
+  // Обработчик клика на кнопку удаления
+  skillsGrid.addEventListener("click", function (event) {
+    const deleteButton = event.target.closest(".delete-skill-button");
+    if (deleteButton) {
+      const card = deleteButton.closest(".skill-card");
+      if (card) {
+        deleteSkill(card);
+      }
     }
   });
 }
@@ -121,6 +137,7 @@ function createSkillCard(skill) {
   card.dataset.skillId = skill.id;
 
   card.innerHTML = `
+    <button class="delete-skill-button" aria-label="Удалить навык">×</button>
     <h3>${escapeHtml(skill.name)}</h3>
     <p>${escapeHtml(skill.description)}</p>
   `;
@@ -193,6 +210,7 @@ function loadSkillsFromStorage() {
       card.dataset.skillId = skill.id;
 
       card.innerHTML = `
+        <button class="delete-skill-button" aria-label="Удалить навык"><span>x</span></button>
         <h3>${escapeHtml(skill.name)}</h3>
         <p>${escapeHtml(skill.description)}</p>
       `;
@@ -201,6 +219,29 @@ function loadSkillsFromStorage() {
     });
   } catch (error) {
     console.error("Ошибка при загрузке навыков:", error);
+  }
+}
+
+/**
+ * Удаление навыка с подтверждением
+ */
+function deleteSkill(card) {
+  const nameElement = card.querySelector("h3");
+  const skillName = nameElement ? nameElement.textContent.trim() : "этот навык";
+
+  const confirmed = confirm(
+    `Вы уверены, что хотите удалить навык "${skillName}"?`
+  );
+
+  if (confirmed) {
+    card.style.transition = "all 0.3s ease";
+    card.style.opacity = "0";
+    card.style.transform = "scale(0.8)";
+
+    setTimeout(() => {
+      card.remove();
+      saveSkillsToStorage();
+    }, 300);
   }
 }
 

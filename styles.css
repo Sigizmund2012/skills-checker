@@ -5,7 +5,6 @@
   --bg-secondary: #f5f3f0; /* Светло-бежевый для градиента */
   --text-light: #2d2d2d; /* Тёмно-серый для основного текста */
   --text-secondary: #6b6b6b; /* Средне-серый для вторичного текста */
-
   /* Переменные для анимации заднего фона */
   --hero-glow-x: 50%;
   --hero-glow-y: 50%;
@@ -13,27 +12,29 @@
 
 /* Сброс базовых стилей */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
   background-color: var(--bg-dark);
   color: var(--text-light);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
-  overflow-x: hidden;
 }
 
 /* Hero секция */
 .hero {
-  min-height: 100vh;
+  position: relative;
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  min-height: 100vh;
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
@@ -41,34 +42,30 @@ body {
     var(--bg-dark) 100%
   );
   background-size: 200% 200%;
-  position: relative;
-  overflow: hidden;
   animation: heroBackgroundShift 20s ease-in-out infinite;
 }
 
 /* Градиентный эффект на фоне, реагирующий на положение мыши */
 .hero::before {
-  content: "";
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   background: radial-gradient(
     circle 400px at var(--hero-glow-x) var(--hero-glow-y),
     rgba(184, 169, 201, 0.35) 0%,
     rgba(168, 197, 208, 0.2) 40%,
     transparent 70%
   );
+  content: "";
   transition: background 0.3s ease-out;
   pointer-events: none;
 }
 
 /* Дополнительное свечение на фоне (автономная анимация) */
 .hero::after {
-  content: "";
   position: absolute;
-  inset: -40%;
   background: radial-gradient(
       circle 600px at 20% 30%,
       rgba(184, 169, 201, 0.45),
@@ -88,27 +85,30 @@ body {
       transparent 65%
     );
   background-size: 150% 150%;
-  mix-blend-mode: normal;
+  content: "";
   opacity: 1;
   animation: heroGlowFloat 10s ease-in-out infinite;
   pointer-events: none;
+
+  inset: -40%;
+  mix-blend-mode: normal;
 }
 
 /* Контейнер контента */
 .hero-content {
-  text-align: center;
-  max-width: 800px;
-  z-index: 1;
   position: relative;
+  z-index: 1;
+  max-width: 800px;
+  text-align: center;
 }
 
 /* Имя пользователя */
 .hero-name {
-  font-size: clamp(2.5rem, 8vw, 4rem);
-  font-weight: 700;
   margin-bottom: 1.5rem;
   color: var(--text-light);
   letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 8vw, 4rem);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.2s forwards;
@@ -116,12 +116,12 @@ body {
 
 /* Биография */
 .hero-bio {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
   margin-right: auto;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  max-width: 600px;
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.4s forwards;
@@ -129,10 +129,10 @@ body {
 
 /* Подзаголовок */
 .hero-subtitle {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: 500;
-  color: var(--accent);
   margin-bottom: 2.5rem;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.6s forwards;
@@ -142,24 +142,24 @@ body {
 .cta-button {
   display: inline-block;
   padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: var(--accent);
-  text-decoration: none;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  background-color: var(--accent);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
   opacity: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.8s forwards;
-  cursor: pointer;
 }
 
 /* Эффект при наведении на кнопку */
 .cta-button:hover {
   background-color: #a899c0;
-  transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(184, 169, 201, 0.4);
+  transform: translateY(-2px);
 }
 
 .cta-button:active {
@@ -249,92 +249,120 @@ body {
 /* Секция навыков */
 .skills-section {
   padding: 4rem 2rem;
-  background-color: var(--bg-dark);
   min-height: 100vh;
+  background-color: var(--bg-dark);
 }
 
 .skills-container {
-  max-width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
 }
 
 .skills-title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
+  margin-bottom: 3rem;
   color: var(--text-light);
   text-align: center;
-  margin-bottom: 3rem;
   letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
 }
 
 /* Сетка карточек навыков */
 .skills-grid {
   display: grid;
+  margin-bottom: 2.5rem;
+
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2.5rem;
 }
 
 /* Карточка навыка */
 .skill-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .skill-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(184, 169, 201, 0.25);
+  transform: translateY(-4px);
 }
 
 .skill-card.expanded {
   box-shadow: 0 8px 24px rgba(184, 169, 201, 0.3);
 }
 
-.skill-card h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-light);
-  margin-bottom: 0.75rem;
-  padding-right: 1.5rem;
-  position: relative;
-}
-
-.skill-card h3::after {
-  content: "▼";
+/* Кнопка удаления навыка */
+.delete-skill-button {
   position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.75rem;
-  color: var(--accent);
-  transition: transform 0.3s ease;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  min-width: 28px;
+  min-height: 28px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(184, 169, 201, 0.2);
+  color: #6b5d7d;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.delete-skill-button span {
+  display: block;
+  width: 28px;
+  height: 32px;
 }
 
-.skill-card.expanded h3::after {
-  transform: translateY(-50%) rotate(180deg);
+.delete-skill-button:hover {
+  background-color: rgba(220, 53, 69, 0.25);
+  color: #a71e2a;
+  transform: scale(1.1);
+}
+
+.delete-skill-button:active {
+  transform: scale(0.95);
+}
+
+.skill-card h3 {
+  margin-bottom: 0.75rem;
+  padding-right: 3rem;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .skill-card p {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  max-height: 0;
-  opacity: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
   margin-top: 0;
+  max-height: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
 }
 
 .skill-card.expanded p {
+  margin-top: 0.75rem;
   max-height: 500px;
   opacity: 1;
-  margin-top: 0.75rem;
 }
 
 /* Кнопка добавления навыка */
@@ -342,21 +370,21 @@ body {
   display: block;
   margin: 0 auto;
   padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: var(--accent);
   border: none;
   border-radius: 50px;
+  background-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: inherit;
 }
 
 .add-skill-button:hover {
   background-color: #a899c0;
-  transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(184, 169, 201, 0.4);
+  transform: translateY(-2px);
 }
 
 .add-skill-button:active {
@@ -374,9 +402,10 @@ body {
   }
 
   .skills-grid {
+    margin-bottom: 2rem;
+
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.25rem;
-    margin-bottom: 2rem;
   }
 
   .skill-card {
@@ -405,8 +434,8 @@ body {
 
   .add-skill-button {
     padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
-    width: 100%;
     max-width: 300px;
+    width: 100%;
+    font-size: 0.95rem;
   }
 }
