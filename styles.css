@@ -5,6 +5,10 @@
   --bg-secondary: #f5f3f0; /* Светло-бежевый для градиента */
   --text-light: #2d2d2d; /* Тёмно-серый для основного текста */
   --text-secondary: #6b6b6b; /* Средне-серый для вторичного текста */
+  --glass-bg: rgba(255, 255, 255, 0.1); /* Прозрачный фон для стеклянного эффекта */
+  --glass-border: rgba(255, 255, 255, 0.2); /* Прозрачная граница */
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+  --glass-blur: 10px; /* Размытие для эффекта матового стекла */
   /* Переменные для анимации заднего фона */
   --hero-glow-x: 50%;
   --hero-glow-y: 50%;
@@ -43,6 +47,21 @@ body {
   );
   background-size: 200% 200%;
   animation: heroBackgroundShift 20s ease-in-out infinite;
+}
+
+/* Glassmorphism эффект для hero-контента */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  text-align: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  padding: 2rem;
 }
 
 /* Градиентный эффект на фоне, реагирующий на положение мыши */
@@ -92,14 +111,6 @@ body {
 
   inset: -40%;
   mix-blend-mode: normal;
-}
-
-/* Контейнер контента */
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  text-align: center;
 }
 
 /* Имя пользователя */
@@ -153,6 +164,8 @@ body {
   transition: all 0.3s ease;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.8s forwards;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 /* Эффект при наведении на кнопку */
@@ -282,8 +295,11 @@ body {
   overflow: hidden;
   padding: 1.5rem;
   border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -427,6 +443,8 @@ body {
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .add-skill-button:hover {
