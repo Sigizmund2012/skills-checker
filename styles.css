@@ -340,6 +340,54 @@ body {
   transform: scale(0.95);
 }
 
+/* Кнопка отметки навыка как изученного */
+.mark-learned-button {
+  position: absolute;
+  top: 1rem;
+  right: 3.5rem; /* Располагаем слева от кнопки удаления */
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  min-width: 28px;
+  min-height: 28px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(184, 169, 201, 0.2);
+  color: var(--text-light);
+  text-align: center;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mark-learned-button:hover {
+  background-color: rgba(40, 167, 69, 0.25);
+  color: var(--text-light);
+  transform: scale(1.1);
+}
+
+.mark-learned-button:active {
+  transform: scale(0.95);
+}
+
+/* Визуальное отображение изученного навыка */
+.skill-card.learned {
+  border-left: 4px solid #28a745; /* Зеленая полоса слева */
+  background-color: rgba(40, 167, 69, 0.05); /* Светло-зеленый фон */
+}
+
+.skill-card.learned h3 {
+  color: #28a745; /* Зеленый цвет текста */
+}
+
 .skill-card h3 {
   margin-bottom: 0.75rem;
   padding-right: 3rem;

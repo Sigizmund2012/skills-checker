@@ -75,8 +75,8 @@ function initSkillsSection() {
 
   // Обработчик клика на карточки для разворачивания/сворачивания
   skillsGrid.addEventListener("click", function (event) {
-    // Если клик по кнопке удаления, не разворачиваем карточку
-    if (event.target.closest(".delete-skill-button")) {
+    // Если клик по кнопке удаления, или отметки, то не разворачиваем карточку
+    if (event.target.closest(".delete-skill-button") || event.target.closest(".mark-learned-button" )) {
       return;
     }
 
@@ -96,7 +96,20 @@ function initSkillsSection() {
       }
     }
   });
+
+  // Обработчик клика на кнопку отметки навыка как изученного
+  skillsGrid.addEventListener("click", function (event) {
+    const markLearnedButton = event.target.closest(".mark-learned-button");
+    if (markLearnedButton) {
+      const card = markLearnedButton.closest(".skill-card");
+      if (card) {
+        toggleLearnedStatus(card);
+      }
+    }
+  });
+  
 }
+
 
 /**
  * Добавление нового навыка через prompt()
@@ -134,15 +147,27 @@ function createSkillCard(skill) {
 
   const card = document.createElement("div");
   card.className = "skill-card";
+   if (skill.learned) {
+    card.classList.add("learned");
+  }
   card.dataset.skillId = skill.id;
 
   card.innerHTML = `
+  <button class="mark-learned-button" aria-label="Отметить как изученный">✓</button>
     <button class="delete-skill-button" aria-label="Удалить навык">×</button>
     <h3>${escapeHtml(skill.name)}</h3>
     <p>${escapeHtml(skill.description)}</p>
   `;
 
   skillsGrid.appendChild(card);
+}
+
+/**
+ * Переключение состояния "изученный" для навыка
+ */
+function toggleLearnedStatus(card) {
+  card.classList.toggle("learned");
+  saveSkillsToStorage();
 }
 
 /**
@@ -173,6 +198,7 @@ function saveSkillsToStorage() {
         name: nameElement.textContent.trim(),
         description: descriptionElement.textContent.trim(),
         expanded: card.classList.contains("expanded"),
+        learned: card.classList.contains("learned"),
       });
     }
   });
@@ -207,9 +233,13 @@ function loadSkillsFromStorage() {
       if (skill.expanded) {
         card.classList.add("expanded");
       }
+       if (skill.learned) {
+        card.classList.add("learned");
+      }
       card.dataset.skillId = skill.id;
 
       card.innerHTML = `
+        <button class="mark-learned-button" aria-label="Отметить как изученный">✓</button>
         <button class="delete-skill-button" aria-label="Удалить навык"><span>x</span></button>
         <h3>${escapeHtml(skill.name)}</h3>
         <p>${escapeHtml(skill.description)}</p>
