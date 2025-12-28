@@ -1,10 +1,15 @@
 /* CSS переменные для удобства настройки */
 :root {
   --accent: #b8a9c9; /* Мягкий лавандовый */
+  --accent-dark: #a899c0; /* Темный лавандовый для hover эффектов */
   --bg-dark: #faf8f5; /* Тёплый кремовый */
   --bg-secondary: #f5f3f0; /* Светло-бежевый для градиента */
   --text-light: #2d2d2d; /* Тёмно-серый для основного текста */
   --text-secondary: #6b6b6b; /* Средне-серый для вторичного текста */
+  --text-white: #ffffff; /* Белый цвет для текста */
+  --success-green: #28a745; /* Зеленый цвет для успешных элементов */
+  --danger-red: #dc3545; /* Красный цвет для опасных элементов */
+  --success-light: #28a745; /* Светло-зеленый цвет */
   --glass-bg: rgba(
     255,
     255,
@@ -14,6 +19,20 @@
   --glass-border: rgba(255, 255, 255, 0.2); /* Прозрачная граница */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Тень для глубины */
   --glass-blur: 10px; /* Размытие для эффекта матового стекла */
+  /* Цвета для градиентов и эффектов */
+  --gradient-purple-light: rgba(184, 169, 201, 0.35);
+  --gradient-blue-light: rgba(168, 197, 208, 0.2);
+  --gradient-purple-medium: rgba(184, 169, 201, 0.45);
+  --gradient-purple-lighter: rgba(184, 169, 201, 0.25);
+  --gradient-blue-medium: rgba(168, 197, 208, 0.4);
+  --gradient-blue-lighter: rgba(168, 197, 208, 0.2);
+  --gradient-lavender-light: rgba(200, 180, 220, 0.35);
+  --gradient-lavender-lighter: rgba(200, 180, 220, 0.15);
+  --gradient-purple-opaque: rgba(184, 169, 201, 0.3);
+  --gradient-purple-transparent: rgba(184, 169, 201, 0.2);
+  --danger-transparent: rgba(220, 53, 69, 0.25);
+  --success-transparent: rgba(40, 167, 69, 0.25);
+  --success-very-light: rgba(40, 167, 69, 0.05);
   /* Переменные для анимации заднего фона */
   --body-glow-x: 50%;
   --body-glow-y: 50%;
@@ -27,6 +46,7 @@
 }
 
 body {
+  position: relative;
   overflow-x: hidden;
   background: linear-gradient(
     135deg,
@@ -35,12 +55,11 @@ body {
     var(--bg-dark) 100%
   );
   background-size: 200% 200%;
-  animation: bodyBackgroundShift 20s ease-in-out infinite;
   color: var(--text-light);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
-  position: relative;
+  animation: bodyBackgroundShift 20s ease-in-out infinite;
 }
 
 /* Градиентный эффект на фоне body, реагирующий на положение мыши */
@@ -50,37 +69,38 @@ body::before {
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: -1;
   background: radial-gradient(
     circle 400px at var(--body-glow-x) var(--body-glow-y),
-    rgba(184, 169, 201, 0.35) 0%,
-    rgba(168, 197, 208, 0.2) 40%,
+    var(--gradient-purple-light) 0%,
+    var(--gradient-blue-light) 40%,
     transparent 70%
   );
   content: "";
   transition: background 0.3s ease-out;
   pointer-events: none;
-  z-index: -1;
 }
 
 /* Дополнительное свечение на фоне (автономная анимация) для всего body */
 body::after {
   position: fixed;
+  z-index: -1;
   background: radial-gradient(
       circle 600px at 20% 30%,
-      rgba(184, 169, 201, 0.45),
-      rgba(184, 169, 201, 0.25) 30%,
+      var(--gradient-purple-medium),
+      var(--gradient-purple-lighter) 30%,
       transparent 55%
     ),
     radial-gradient(
       circle 550px at 75% 70%,
-      rgba(168, 197, 208, 0.4),
-      rgba(168, 197, 208, 0.2) 35%,
+      var(--gradient-blue-medium),
+      var(--gradient-blue-lighter) 35%,
       transparent 60%
     ),
     radial-gradient(
       circle 500px at 50% 50%,
-      rgba(200, 180, 220, 0.35),
-      rgba(200, 180, 220, 0.15) 40%,
+      var(--gradient-lavender-light),
+      var(--gradient-lavender-lighter) 40%,
       transparent 65%
     );
   background-size: 150% 150%;
@@ -91,7 +111,6 @@ body::after {
 
   inset: -40%;
   mix-blend-mode: normal;
-  z-index: -1;
 }
 
 /* Hero секция */
@@ -110,15 +129,16 @@ body::after {
 .hero-content {
   position: relative;
   z-index: 1;
+  padding: 2rem;
   max-width: 800px;
-  text-align: center;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
   background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  text-align: center;
+
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  padding: 2rem;
 }
 
 /* Имя пользователя */
@@ -163,7 +183,7 @@ body::after {
   padding: 1rem 2.5rem;
   border-radius: 50px;
   background-color: var(--accent);
-  color: #ffffff;
+  color: var(--text-white);
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
@@ -172,14 +192,15 @@ body::after {
   transition: all 0.3s ease;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease-out 0.8s forwards;
+
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 
 /* Эффект при наведении на кнопку */
 .cta-button:hover {
-  background-color: #a899c0;
-  box-shadow: 0 10px 30px rgba(184, 169, 201, 0.4);
+  background-color: var(--accent-dark);
+  box-shadow: 0 10px 30px var(--gradient-purple-lighter);
   transform: translateY(-2px);
 }
 
@@ -302,23 +323,24 @@ body::after {
   position: relative;
   overflow: hidden;
   padding: 1.5rem;
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   background-color: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   cursor: pointer;
   transition: all 0.3s ease;
+
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .skill-card:hover {
-  box-shadow: 0 8px 24px rgba(184, 169, 201, 0.25);
+  box-shadow: 0 8px 24px var(--gradient-purple-lighter);
   transform: translateY(-4px);
 }
 
 .skill-card.expanded {
-  box-shadow: 0 8px 24px rgba(184, 169, 201, 0.3);
+  box-shadow: 0 8px 24px var(--gradient-purple-opaque);
 }
 
 /* Кнопка удаления навыка */
@@ -338,7 +360,7 @@ body::after {
   height: 28px;
   border: none;
   border-radius: 50%;
-  background-color: rgba(184, 169, 201, 0.2);
+  background-color: var(--gradient-purple-transparent);
   color: var(--text-light);
   text-align: center;
   font-weight: 400;
@@ -355,7 +377,7 @@ body::after {
 }
 
 .delete-skill-button:hover {
-  background-color: rgba(220, 53, 69, 0.25);
+  background-color: var(--danger-transparent);
   color: var(--text-light);
   transform: scale(1.1);
 }
@@ -381,7 +403,7 @@ body::after {
   height: 28px;
   border: none;
   border-radius: 50%;
-  background-color: rgba(184, 169, 201, 0.2);
+  background-color: var(--gradient-purple-transparent);
   color: var(--text-light);
   text-align: center;
   font-weight: 400;
@@ -393,7 +415,7 @@ body::after {
 }
 
 .mark-learned-button:hover {
-  background-color: rgba(40, 167, 69, 0.25);
+  background-color: var(--success-transparent);
   color: var(--text-light);
   transform: scale(1.1);
 }
@@ -404,12 +426,12 @@ body::after {
 
 /* Визуальное отображение изученного навыка */
 .skill-card.learned {
-  border-left: 4px solid #28a745; /* Зеленая полоса слева */
-  background-color: rgba(40, 167, 69, 0.05); /* Светло-зеленый фон */
+  border-left: 4px solid var(--success-green); /* Зеленая полоса слева */
+  background-color: var(--success-very-light); /* Светло-зеленый фон */
 }
 
 .skill-card.learned h3 {
-  color: #28a745; /* Зеленый цвет текста */
+  color: var(--success-green); /* Зеленый цвет текста */
 }
 
 .skill-card h3 {
@@ -445,19 +467,20 @@ body::after {
   border: none;
   border-radius: 50px;
   background-color: var(--accent);
-  color: #ffffff;
+  color: var(--text-white);
   font-weight: 600;
   font-size: 1.1rem;
   font-family: inherit;
   cursor: pointer;
   transition: all 0.3s ease;
+
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
 
 .add-skill-button:hover {
-  background-color: #a899c0;
-  box-shadow: 0 10px 30px rgba(184, 169, 201, 0.4);
+  background-color: var(--accent-dark);
+  box-shadow: 0 10px 30px var(--gradient-purple-lighter);
   transform: translateY(-2px);
 }
 
@@ -538,14 +561,15 @@ body::after {
 .skills-index-content {
   display: flex;
   flex-direction: column;
+
   gap: 1.5rem;
 }
 
 @media (min-width: 769px) {
   .skills-index-content {
+    align-items: flex-start;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
   }
 
   .skills-index-result {
@@ -557,13 +581,15 @@ body::after {
 .skill-slider {
   display: flex;
   flex-direction: column;
+
   gap: 0.5rem;
 }
 
 .skills-index-sliders {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
+
   gap: 2rem;
 }
 
@@ -574,84 +600,88 @@ body::after {
 }
 
 .skill-range {
-  -webkit-appearance: none;
-  appearance: none;
   width: 100%;
   height: 8px;
-  border-radius: 4px;
-  background: rgba(184, 169, 201, 0.3);
   outline: none;
+  border-radius: 4px;
+  background: var(--gradient-purple-opaque);
+
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .skill-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
   transition: all 0.3s ease;
+
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .skill-range::-webkit-slider-thumb:hover {
-  background: #a899c0;
+  background: var(--accent-dark);
   transform: scale(1.2);
 }
 
 .skill-value {
+  align-self: flex-end;
   color: var(--accent);
   font-weight: 600;
   font-size: 1rem;
-  align-self: flex-end;
 }
 
 .skills-index-result {
   margin-top: 1rem;
   padding: 1.5rem;
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
 }
 
 .average-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
   margin-bottom: 1rem;
+
+  gap: 1rem;
 }
 
 .progress-bar {
+  overflow: hidden;
   flex: 1;
   height: 20px;
   border-radius: 10px;
-  background: rgba(184, 169, 201, 0.2);
-  overflow: hidden;
+  background: var(--gradient-purple-transparent);
 }
 
 .progress-fill {
-  height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--accent), #a899c0);
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
   transition: width 0.5s ease;
 }
 
 .average-value {
   min-width: 60px;
-  text-align: center;
   color: var(--text-light);
+  text-align: center;
   font-weight: 700;
   font-size: 1.5rem;
 }
 
 .level-description {
-  text-align: center;
   color: var(--text-secondary);
-  font-size: 1.1rem;
+  text-align: center;
   font-weight: 500;
+  font-size: 1.1rem;
 }
 
 /* Адаптивность для секции индекса навыков */
