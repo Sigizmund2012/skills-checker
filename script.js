@@ -322,7 +322,7 @@ function initSkillsIndex() {
  */
 function updateSkillValue(range) {
   const valueDisplay = range.nextElementSibling;
-  if (valueDisplay && valueDisplay.classList.contains("skill-value")) {
+  if (valueDisplay?.classList.contains("skill-value")) {
     valueDisplay.textContent = range.value + "%";
   }
 }
@@ -340,7 +340,7 @@ function updateAverageValue() {
 
   let sum = 0;
   skillRanges.forEach(range => {
-    sum += parseInt(range.value);
+    sum += Number.parseInt(range.value);
   });
 
   const average = Math.round(sum / skillRanges.length);
