@@ -505,3 +505,156 @@ body {
     font-size: 0.95rem;
   }
 }
+
+/* Секция индекса навыков */
+.skills-index-section {
+  padding: 4rem 2rem;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+}
+
+.skills-index-container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.skills-index-title {
+  margin-bottom: 3rem;
+  color: var(--text-light);
+  text-align: center;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.skills-index-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 769px) {
+  .skills-index-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .skills-index-result {
+    flex: 0 0 350px;
+    margin-top: 0;
+  }
+}
+
+.skill-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skills-index-sliders {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skill-slider label {
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.skill-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(184, 169, 201, 0.3);
+  outline: none;
+}
+
+.skill-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.skill-range::-webkit-slider-thumb:hover {
+  background: #a899c0;
+  transform: scale(1.2);
+}
+
+.skill-value {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1rem;
+  align-self: flex-end;
+}
+
+.skills-index-result {
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.average-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(184, 169, 201, 0.2);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #a899c0);
+  transition: width 0.5s ease;
+}
+
+.average-value {
+  min-width: 60px;
+  text-align: center;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.level-description {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Адаптивность для секции индекса навыков */
+@media (max-width: 768px) {
+  .skills-index-section {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-index-section {
+    padding: 2rem 1rem;
+  }
+}

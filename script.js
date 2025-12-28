@@ -54,6 +54,7 @@ function initHeroBackgroundInteraction() {
 document.addEventListener("DOMContentLoaded", function () {
   initHeroBackgroundInteraction();
   initSkillsSection();
+  initSkillsIndex();
 });
 
 /**
@@ -282,4 +283,124 @@ function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
+}
+
+/**
+ * Инициализация секции индекса навыков
+ */
+function initSkillsIndex() {
+  const skillRanges = document.querySelectorAll(".skill-range");
+  const averageValue = document.getElementById("averageValue");
+  const levelDescription = document.getElementById("levelDescription");
+  const progressFill = document.getElementById("progressFill");
+
+  if (!skillRanges.length || !averageValue || !levelDescription || !progressFill) return;
+
+  // Загружаем сохраненные значения из localStorage
+  loadSkillsIndexFromStorage();
+
+  // Обработчик изменения слайдеров
+  skillRanges.forEach(range => {
+    range.addEventListener("input", function() {
+      updateSkillValue(this);
+      updateAverageValue();
+      saveSkillsIndexToStorage();
+    });
+  });
+
+  // Инициализируем отображение значений
+  skillRanges.forEach(range => {
+    updateSkillValue(range);
+  });
+
+  // Рассчитываем среднее значение
+  updateAverageValue();
+}
+
+/**
+ * Обновление отображаемого значения для слайдера
+ */
+function updateSkillValue(range) {
+  const valueDisplay = range.nextElementSibling;
+  if (valueDisplay && valueDisplay.classList.contains("skill-value")) {
+    valueDisplay.textContent = range.value + "%";
+  }
+}
+
+/**
+ * Рассчет и обновление среднего значения
+ */
+function updateAverageValue() {
+  const skillRanges = document.querySelectorAll(".skill-range");
+  const averageValue = document.getElementById("averageValue");
+  const levelDescription = document.getElementById("levelDescription");
+  const progressFill = document.getElementById("progressFill");
+
+  if (!skillRanges.length || !averageValue || !levelDescription || !progressFill) return;
+
+  let sum = 0;
+  skillRanges.forEach(range => {
+    sum += parseInt(range.value);
+  });
+
+  const average = Math.round(sum / skillRanges.length);
+  averageValue.textContent = average + "%";
+  progressFill.style.width = average + "%";
+
+  // Определяем текстовое описание на основе диапазона
+  let description = "";
+  if (average >= 0 && average <= 25) {
+    description = "Начинающий, верный старт";
+  } else if (average >= 26 && average <= 50) {
+    description = "Прогрессируешь, держи темп";
+  } else if (average >= 51 && average <= 75) {
+    description = "Уверенно растёшь, почти junior";
+  } else if (average >= 76 && average <= 100) {
+    description = "Сильная база — готов к портфолио";
+  }
+
+  levelDescription.textContent = description;
+}
+
+/**
+ * Сохранение значений индекса навыков в localStorage
+ */
+function saveSkillsIndexToStorage() {
+  const skillRanges = document.querySelectorAll(".skill-range");
+  if (!skillRanges.length) return;
+
+  const skillsData = {};
+  skillRanges.forEach(range => {
+    const skillName = range.closest(".skill-slider").dataset.skill;
+    skillsData[skillName] = range.value;
+  });
+
+  try {
+    localStorage.setItem("skillsIndex", JSON.stringify(skillsData));
+  } catch (error) {
+    console.error("Ошибка при сохранении индекса навыков:", error);
+  }
+}
+
+/**
+ * Загрузка значений индекса навыков из localStorage
+ */
+function loadSkillsIndexFromStorage() {
+  const skillRanges = document.querySelectorAll(".skill-range");
+  if (!skillRanges.length) return;
+
+  try {
+    const storedData = localStorage.getItem("skillsIndex");
+    if (storedData) {
+      const skillsData = JSON.parse(storedData);
+      skillRanges.forEach(range => {
+        const skillName = range.closest(".skill-slider").dataset.skill;
+        if (skillsData[skillName]) {
+          range.value = skillsData[skillName];
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Ошибка при загрузке индекса навыков:", error);
+  }
 }
