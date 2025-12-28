@@ -741,7 +741,6 @@ body::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
   padding: 1rem 2.5rem;
   border-radius: 50px;
   background-color: var(--accent);
@@ -752,6 +751,7 @@ body::after {
   cursor: pointer;
   transition: all 0.3s ease;
 
+  gap: 0.75rem;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
@@ -797,8 +797,8 @@ body::after {
 
   .telegram-link {
     padding: 0.75rem 1.5rem;
-    font-size: 1rem;
     max-width: 300px;
     width: 100%;
+    font-size: 1rem;
   }
 }
