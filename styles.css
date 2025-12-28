@@ -102,7 +102,7 @@ body::after {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  min-height: 100vh;
+  min-height: 80vh;
   background: transparent;
 }
 
@@ -269,8 +269,8 @@ body::after {
 
 /* Секция навыков */
 .skills-section {
-  padding: 4rem 2rem;
-  min-height: 100vh;
+  padding: 2rem 2rem;
+  min-height: auto;
   background-color: transparent;
 }
 
@@ -280,7 +280,7 @@ body::after {
 }
 
 .skills-title {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   color: var(--text-light);
   text-align: center;
   letter-spacing: -0.02em;
@@ -291,7 +291,7 @@ body::after {
 /* Сетка карточек навыков */
 .skills-grid {
   display: grid;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
@@ -468,15 +468,15 @@ body::after {
 /* Адаптивность для секции навыков */
 @media (max-width: 768px) {
   .skills-section {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem;
   }
 
   .skills-title {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .skills-grid {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.25rem;
@@ -494,7 +494,7 @@ body::after {
 
 @media (max-width: 480px) {
   .skills-section {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
 
   .skills-grid {
@@ -516,8 +516,8 @@ body::after {
 
 /* Секция индекса навыков */
 .skills-index-section {
-  padding: 4rem 2rem;
-  min-height: 100vh;
+  padding: 2rem 2rem;
+  min-height: auto;
   background-color: transparent;
 }
 
@@ -527,7 +527,7 @@ body::after {
 }
 
 .skills-index-title {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   color: var(--text-light);
   text-align: center;
   letter-spacing: -0.02em;
@@ -538,7 +538,7 @@ body::after {
 .skills-index-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 769px) {
@@ -607,8 +607,8 @@ body::after {
 }
 
 .skills-index-result {
-  margin-top: 2rem;
-  padding: 2rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
   border-radius: 12px;
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
@@ -657,12 +657,12 @@ body::after {
 /* Адаптивность для секции индекса навыков */
 @media (max-width: 768px) {
   .skills-index-section {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .skills-index-section {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
 }
