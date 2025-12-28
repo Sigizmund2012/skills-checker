@@ -5,13 +5,18 @@
   --bg-secondary: #f5f3f0; /* Светло-бежевый для градиента */
   --text-light: #2d2d2d; /* Тёмно-серый для основного текста */
   --text-secondary: #6b6b6b; /* Средне-серый для вторичного текста */
-  --glass-bg: rgba(255, 255, 255, 0.1); /* Прозрачный фон для стеклянного эффекта */
+  --glass-bg: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Прозрачный фон для стеклянного эффекта */
   --glass-border: rgba(255, 255, 255, 0.2); /* Прозрачная граница */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Тень для глубины */
   --glass-blur: 10px; /* Размытие для эффекта матового стекла */
   /* Переменные для анимации заднего фона */
-  --hero-glow-x: 50%;
-  --hero-glow-y: 50%;
+  --body-glow-x: 50%;
+  --body-glow-y: 50%;
 }
 
 /* Сброс базовых стилей */
@@ -23,22 +28,6 @@
 
 body {
   overflow-x: hidden;
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
-  line-height: 1.6;
-}
-
-/* Hero секция */
-.hero {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  min-height: 100vh;
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
@@ -46,33 +35,23 @@ body {
     var(--bg-dark) 100%
   );
   background-size: 200% 200%;
-  animation: heroBackgroundShift 20s ease-in-out infinite;
-}
-
-/* Glassmorphism эффект для hero-контента */
-.hero-content {
+  animation: bodyBackgroundShift 20s ease-in-out infinite;
+  color: var(--text-light);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
   position: relative;
-  z-index: 1;
-  max-width: 800px;
-  text-align: center;
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  padding: 2rem;
 }
 
-/* Градиентный эффект на фоне, реагирующий на положение мыши */
-.hero::before {
-  position: absolute;
+/* Градиентный эффект на фоне body, реагирующий на положение мыши */
+body::before {
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background: radial-gradient(
-    circle 400px at var(--hero-glow-x) var(--hero-glow-y),
+    circle 400px at var(--body-glow-x) var(--body-glow-y),
     rgba(184, 169, 201, 0.35) 0%,
     rgba(168, 197, 208, 0.2) 40%,
     transparent 70%
@@ -80,11 +59,12 @@ body {
   content: "";
   transition: background 0.3s ease-out;
   pointer-events: none;
+  z-index: -1;
 }
 
-/* Дополнительное свечение на фоне (автономная анимация) */
-.hero::after {
-  position: absolute;
+/* Дополнительное свечение на фоне (автономная анимация) для всего body */
+body::after {
+  position: fixed;
   background: radial-gradient(
       circle 600px at 20% 30%,
       rgba(184, 169, 201, 0.45),
@@ -106,11 +86,39 @@ body {
   background-size: 150% 150%;
   content: "";
   opacity: 1;
-  animation: heroGlowFloat 10s ease-in-out infinite;
+  animation: bodyGlowFloat 10s ease-in-out infinite;
   pointer-events: none;
 
   inset: -40%;
   mix-blend-mode: normal;
+  z-index: -1;
+}
+
+/* Hero секция */
+.hero {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Glassmorphism эффект для hero-контента */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  text-align: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  padding: 2rem;
 }
 
 /* Имя пользователя */
@@ -187,8 +195,8 @@ body {
   }
 }
 
-/* Анимация фона hero-секции (градиент) */
-@keyframes heroBackgroundShift {
+/* Анимация фона body (градиент) */
+@keyframes bodyBackgroundShift {
   0% {
     background-position: 0% 50%;
   }
@@ -200,8 +208,8 @@ body {
   }
 }
 
-/* Автономная анимация свечения фона */
-@keyframes heroGlowFloat {
+/* Автономная анимация свечения фона для body */
+@keyframes bodyGlowFloat {
   0% {
     background-position: 0% 0%, 100% 100%, 50% 50%;
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
@@ -263,7 +271,7 @@ body {
 .skills-section {
   padding: 4rem 2rem;
   min-height: 100vh;
-  background-color: var(--bg-dark);
+  background-color: transparent;
 }
 
 .skills-container {
@@ -510,7 +518,7 @@ body {
 .skills-index-section {
   padding: 4rem 2rem;
   min-height: 100vh;
-  background-color: var(--bg-dark);
+  background-color: transparent;
 }
 
 .skills-index-container {

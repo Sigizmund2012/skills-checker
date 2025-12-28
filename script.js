@@ -2,14 +2,12 @@
 // Основные анимации появления реализованы через CSS.
 
 /**
- * Лёгкое взаимодействие фона hero-секции с курсором.
+ * Лёгкое взаимодействие фона body с курсором.
  * Мы просто двигаем центр подсветки в radial-gradient
- * через CSS-переменные --hero-glow-x / --hero-glow-y.
+ * через CSS-переменные --body-glow-x / --body-glow-y.
  */
-function initHeroBackgroundInteraction() {
-  /** @type {HTMLElement | null} */
-  const hero = document.querySelector(".hero");
-  if (!hero) return;
+function initBodyBackgroundInteraction() {
+  const body = document.body;
 
   // Ограничиваем частоту обновления, чтобы не перегружать браузер.
   let frameRequested = false;
@@ -17,26 +15,22 @@ function initHeroBackgroundInteraction() {
   let lastClientY = 0;
 
   function updateGlowPosition() {
-    if (!hero) return;
-
-    const rect = hero.getBoundingClientRect();
-
-    // Нормализуем координаты курсора в проценты (0–100%).
-    const x = ((lastClientX - rect.left) / rect.width) * 100;
-    const y = ((lastClientY - rect.top) / rect.height) * 100;
+    // Нормализуем координаты курсора в проценты (0–100%) относительно viewport.
+    const x = (lastClientX / window.innerWidth) * 100;
+    const y = (lastClientY / window.innerHeight) * 100;
 
     // Ограничиваем значения, чтобы подсветка не «убегала» слишком далеко.
     const clampedX = Math.max(0, Math.min(100, x));
     const clampedY = Math.max(0, Math.min(100, y));
 
     // Плавно обновляем позицию для более заметного эффекта
-    hero.style.setProperty("--hero-glow-x", clampedX + "%");
-    hero.style.setProperty("--hero-glow-y", clampedY + "%");
+    body.style.setProperty("--body-glow-x", clampedX + "%");
+    body.style.setProperty("--body-glow-y", clampedY + "%");
 
     frameRequested = false;
   }
 
-  hero.addEventListener("mousemove", function (event) {
+  document.addEventListener("mousemove", function (event) {
     /** @type {MouseEvent} */
     const e = event;
     lastClientX = e.clientX;
@@ -52,7 +46,7 @@ function initHeroBackgroundInteraction() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  initHeroBackgroundInteraction();
+  initBodyBackgroundInteraction();
   initSkillsSection();
   initSkillsIndex();
 });
