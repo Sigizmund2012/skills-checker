@@ -71,7 +71,10 @@ function initSkillsSection() {
   // Обработчик клика на карточки для разворачивания/сворачивания
   skillsGrid.addEventListener("click", function (event) {
     // Если клик по кнопке удаления, или отметки, то не разворачиваем карточку
-    if (event.target.closest(".delete-skill-button") || event.target.closest(".mark-learned-button" )) {
+    if (
+      event.target.closest(".delete-skill-button") ||
+      event.target.closest(".mark-learned-button")
+    ) {
       return;
     }
 
@@ -102,9 +105,7 @@ function initSkillsSection() {
       }
     }
   });
-  
 }
-
 
 /**
  * Добавление нового навыка через prompt()
@@ -129,8 +130,62 @@ function addNewSkill() {
   // Добавляем навык в DOM
   createSkillCard(skill);
 
+  // Добавляем навык в индекс навыков
+  addSkillToIndex(skillName.trim());
+
   // Сохраняем в localStorage
   saveSkillsToStorage();
+}
+
+/**
+ * Добавление навыка в индекс навыков
+ */
+function addSkillToIndex(skillName) {
+  const skillsIndexContainer = document.querySelector(".skills-index-sliders");
+  if (!skillsIndexContainer) return;
+
+  // Проверяем, существует ли уже такой слайдер
+  const existingSlider = document.querySelector(
+    `.skill-slider[data-skill="${skillName}"]`
+  );
+  if (existingSlider) return;
+
+  // Создаем новый слайдер для навыка
+  const skillId = skillName.toLowerCase().replace(/\s+/g, "-") + "-slider";
+  const localStorageData = JSON.parse(localStorage.getItem("skillsIndex"));
+  const skillSliderValue = localStorageData[skillName]
+    ? localStorageData[skillName]
+    : 0;
+  const sliderHTML = `
+    <div class="skill-slider" data-skill="${skillName}">
+      <label for="${skillId}">${skillName}</label>
+      <input
+        type="range"
+        id="${skillId}"
+        min="0"
+        max="100"
+        value=${skillSliderValue}
+        class="skill-range"
+      />
+      <span class="skill-value">${skillSliderValue}%</span>
+    </div>
+  `;
+
+  skillsIndexContainer.insertAdjacentHTML("beforeend", sliderHTML);
+
+  // Добавляем обработчик для нового слайдера
+  const newRange = document.getElementById(skillId);
+  newRange.addEventListener("input", function () {
+    updateSkillValue(this);
+    updateAverageValue();
+    saveSkillsIndexToStorage();
+  });
+
+  // Обновляем среднее значение
+  updateAverageValue();
+
+  // Сохраняем обновленный индекс навыков
+  saveSkillsIndexToStorage();
 }
 
 /**
@@ -142,7 +197,7 @@ function createSkillCard(skill) {
 
   const card = document.createElement("div");
   card.className = "skill-card";
-   if (skill.learned) {
+  if (skill.learned) {
     card.classList.add("learned");
   }
   card.dataset.skillId = skill.id;
@@ -214,8 +269,10 @@ function loadSkillsFromStorage() {
 
   try {
     const storedSkills = localStorage.getItem("skills");
+
     if (!storedSkills) {
-      // Если навыков нет, можно добавить примеры или оставить пустым
+      // Если навыков нет, добавляем демо-данные из индекса навыков
+      addDemoSkillsFromIndex();
       return;
     }
 
@@ -228,7 +285,7 @@ function loadSkillsFromStorage() {
       if (skill.expanded) {
         card.classList.add("expanded");
       }
-       if (skill.learned) {
+      if (skill.learned) {
         card.classList.add("learned");
       }
       card.dataset.skillId = skill.id;
@@ -241,10 +298,59 @@ function loadSkillsFromStorage() {
       `;
 
       skillsGrid.appendChild(card);
+
+      // Убедимся, что для каждого навыка есть слайдер в индексе
+      addSkillToIndex(skill.name);
     });
+
+    // Обновляем среднее значение после загрузки всех навыков
+    updateAverageValue();
   } catch (error) {
     console.error("Ошибка при загрузке навыков:", error);
   }
+}
+
+/**
+ * Добавление демо-данных из индекса навыков
+ */
+function addDemoSkillsFromIndex() {
+  const skillsGrid = document.getElementById("skillsGrid");
+  if (!skillsGrid) return;
+
+  // Создаем демо-данные для навыков
+  const demoSkillNames = ["HTML", "CSS", "JavaScript", "React/Vue"];
+  const demoSkillDescriptions = {
+    HTML: "Язык разметки для создания структуры веб-страниц",
+    CSS: "Язык стилей для оформления веб-страниц",
+    JavaScript: "Язык программирования для добавления интерактивности",
+    "React/Vue":
+      "Популярные фреймворки для создания пользовательских интерфейсов",
+  };
+
+  const demoSkills = [];
+
+  demoSkillNames.forEach((name, index) => {
+    demoSkills.push({
+      id: Date.now().toString() + index,
+      name: name,
+      description: demoSkillDescriptions[name],
+      learned: index < 2, // Отмечаем первые два навыка как изученные
+    });
+
+    // Убедимся, что для каждого навыка есть слайдер в индексе
+    addSkillToIndex(name);
+  });
+
+  // Создаем карточки для демо-навыков
+  demoSkills.forEach((skill) => {
+    createSkillCard(skill);
+  });
+
+  // Обновляем среднее значение после добавления всех слайдеров
+  updateAverageValue();
+
+  // Сохраняем демо-данные в localStorage
+  saveSkillsToStorage();
 }
 
 /**
@@ -266,7 +372,28 @@ function deleteSkill(card) {
     setTimeout(() => {
       card.remove();
       saveSkillsToStorage();
+
+      // Также удаляем соответствующий слайдер из индекса навыков
+      removeSkillFromIndex(skillName);
     }, 300);
+  }
+}
+
+/**
+ * Удаление навыка из индекса навыков
+ */
+function removeSkillFromIndex(skillName) {
+  const skillSlider = document.querySelector(
+    `.skill-slider[data-skill="${skillName}"]`
+  );
+  if (skillSlider) {
+    skillSlider.remove();
+
+    // Обновляем среднее значение
+    updateAverageValue();
+
+    // Сохраняем обновленный индекс навыков
+    saveSkillsIndexToStorage();
   }
 }
 
@@ -283,19 +410,26 @@ function escapeHtml(text) {
  * Инициализация секции индекса навыков
  */
 function initSkillsIndex() {
-  const skillRanges = document.querySelectorAll(".skill-range");
   const averageValue = document.getElementById("averageValue");
   const levelDescription = document.getElementById("levelDescription");
   const progressFill = document.getElementById("progressFill");
 
-  if (!skillRanges.length || !averageValue || !levelDescription || !progressFill) return;
+  if (!averageValue || !levelDescription || !progressFill) return;
+
+  // Восстанавливаем динамические слайдеры перед инициализацией
+  restoreDynamicSliders();
+
+  // Теперь получаем все слайдеры (включая динамические)
+  const skillRanges = document.querySelectorAll(".skill-range");
+
+  if (!skillRanges.length) return;
 
   // Загружаем сохраненные значения из localStorage
   loadSkillsIndexFromStorage();
 
   // Обработчик изменения слайдеров
-  skillRanges.forEach(range => {
-    range.addEventListener("input", function() {
+  skillRanges.forEach((range) => {
+    range.addEventListener("input", function () {
       updateSkillValue(this);
       updateAverageValue();
       saveSkillsIndexToStorage();
@@ -303,12 +437,43 @@ function initSkillsIndex() {
   });
 
   // Инициализируем отображение значений
-  skillRanges.forEach(range => {
+  skillRanges.forEach((range) => {
     updateSkillValue(range);
   });
 
   // Рассчитываем среднее значение
   updateAverageValue();
+}
+
+/**
+ * Восстановление динамических слайдеров из localStorage
+ */
+function restoreDynamicSliders() {
+  const skillsIndexContainer = document.querySelector(".skills-index-sliders");
+  if (!skillsIndexContainer) return;
+
+  try {
+    // Получаем сохраненные навыки
+    const storedSkills = localStorage.getItem("skills");
+    if (!storedSkills) return;
+
+    const skills = JSON.parse(storedSkills);
+
+    // Получаем текущие слайдеры
+    const existingSliders = document.querySelectorAll(".skill-slider");
+    const existingSkillNames = Array.from(existingSliders).map(
+      (slider) => slider.dataset.skill
+    );
+
+    // Для каждого навыка, если нет соответствующего слайдера, создаем его
+    skills.forEach((skill) => {
+      if (!existingSkillNames.includes(skill.name)) {
+        addSkillToIndex(skill.name);
+      }
+    });
+  } catch (error) {
+    console.error("Ошибка при восстановлении динамических слайдеров:", error);
+  }
 }
 
 /**
@@ -330,10 +495,16 @@ function updateAverageValue() {
   const levelDescription = document.getElementById("levelDescription");
   const progressFill = document.getElementById("progressFill");
 
-  if (!skillRanges.length || !averageValue || !levelDescription || !progressFill) return;
+  if (
+    !skillRanges.length ||
+    !averageValue ||
+    !levelDescription ||
+    !progressFill
+  )
+    return;
 
   let sum = 0;
-  skillRanges.forEach(range => {
+  skillRanges.forEach((range) => {
     sum += Number.parseInt(range.value);
   });
 
@@ -364,13 +535,20 @@ function saveSkillsIndexToStorage() {
   if (!skillRanges.length) return;
 
   const skillsData = {};
-  skillRanges.forEach(range => {
+  skillRanges.forEach((range) => {
     const skillName = range.closest(".skill-slider").dataset.skill;
     skillsData[skillName] = range.value;
   });
 
   try {
-    localStorage.setItem("skillsIndex", JSON.stringify(skillsData));
+    const localStorageSkllIndexData = Object.assign(
+      JSON.parse(localStorage.getItem("skillsIndex")),
+      skillsData
+    );
+    localStorage.setItem(
+      "skillsIndex",
+      JSON.stringify(localStorageSkllIndexData)
+    );
   } catch (error) {
     console.error("Ошибка при сохранении индекса навыков:", error);
   }
@@ -387,10 +565,15 @@ function loadSkillsIndexFromStorage() {
     const storedData = localStorage.getItem("skillsIndex");
     if (storedData) {
       const skillsData = JSON.parse(storedData);
-      skillRanges.forEach(range => {
+      skillRanges.forEach((range) => {
         const skillName = range.closest(".skill-slider").dataset.skill;
         if (skillsData[skillName]) {
           range.value = skillsData[skillName];
+          // Обновляем отображаемое значение
+          const valueDisplay = range.nextElementSibling;
+          if (valueDisplay?.classList.contains("skill-value")) {
+            valueDisplay.textContent = skillsData[skillName] + "%";
+          }
         }
       });
     }
