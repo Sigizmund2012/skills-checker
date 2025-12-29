@@ -151,7 +151,7 @@ function addSkillToIndex(skillName) {
   if (existingSlider) return;
 
   // Создаем новый слайдер для навыка
-  const skillId = skillName.toLowerCase().replace(/\s+/g, "-") + "-slider";
+  const skillId = skillName.toLowerCase().replaceAll(/\s+/g, "-") + "-slider";
   const localStorageData = JSON.parse(localStorage.getItem("skillsIndex"));
   const skillSliderValue = localStorageData[skillName]
     ? localStorageData[skillName]
@@ -461,13 +461,13 @@ function restoreDynamicSliders() {
 
     // Получаем текущие слайдеры
     const existingSliders = document.querySelectorAll(".skill-slider");
-    const existingSkillNames = Array.from(existingSliders).map(
-      (slider) => slider.dataset.skill
+    const existingSkillNames = new Set(
+      Array.from(existingSliders).map((slider) => slider.dataset.skill)
     );
 
     // Для каждого навыка, если нет соответствующего слайдера, создаем его
     skills.forEach((skill) => {
-      if (!existingSkillNames.includes(skill.name)) {
+      if (!existingSkillNames.has(skill.name)) {
         addSkillToIndex(skill.name);
       }
     });
