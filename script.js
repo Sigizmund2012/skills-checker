@@ -194,10 +194,16 @@
 
     // Создаем новый слайдер для навыка
     const skillId = skillName.toLowerCase().replaceAll(/\s+/g, "-") + "-slider";
-    const localStorageData = JSON.parse(localStorage.getItem("skillsIndex"));
-    const skillSliderValue = localStorageData[skillName]
-      ? localStorageData[skillName]
-      : 0;
+    let localStorageData = null;
+    let skillSliderValue = null;
+
+    if (localStorage.getItem("skillsIndex")) {
+      localStorageData = JSON.parse(localStorage.getItem("skillsIndex"));
+      skillSliderValue = localStorageData[skillName]
+        ? localStorageData[skillName]
+        : 0;
+    }
+
     const sliderHTML = `
     <div class="skill-slider" data-skill="${skillName}">
       <label for="${skillId}">${skillName}</label>
@@ -206,10 +212,10 @@
         id="${skillId}"
         min="0"
         max="100"
-        value=${skillSliderValue}
+        value=${skillSliderValue || "0"}
         class="skill-range"
       />
-      <span class="skill-value">${skillSliderValue}%</span>
+      <span class="skill-value">${skillSliderValue || "0"}%</span>
     </div>
   `;
 
@@ -651,10 +657,13 @@
     });
 
     try {
-      const localStorageSkllIndexData = Object.assign(
-        JSON.parse(localStorage.getItem("skillsIndex")),
-        skillsData
-      );
+      let localStorageSkllIndexData = skillsData;
+      if (localStorage.getItem("skillsIndex")) {
+        localStorageSkllIndexData = Object.assign(
+          JSON.parse(localStorage.getItem("skillsIndex")),
+          skillsData
+        );
+      }
       localStorage.setItem(
         "skillsIndex",
         JSON.stringify(localStorageSkllIndexData)
