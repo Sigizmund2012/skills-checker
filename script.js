@@ -218,29 +218,29 @@ function createSkillCard(skill) {
 function toggleLearnedStatus(card) {
   card.classList.toggle("learned");
 
-  // Get the skill name from the card
+  // Получаем название навыка из карточки
   const nameElement = card.querySelector("h3");
   if (nameElement) {
     const skillName = nameElement.textContent.trim();
 
-    // Find the corresponding slider
+    // Находим соответствующий слайдер
     const skillSlider = document.querySelector(
       `.skill-slider[data-skill="${skillName}"]`
     );
     if (skillSlider) {
       const rangeInput = skillSlider.querySelector(".skill-range");
       if (rangeInput) {
-        // Set slider value based on learned status
+        // Устанавливаем значение слайдера в зависимости от статуса "изученный"
         const newValue = card.classList.contains("learned") ? 100 : 0;
         rangeInput.value = newValue;
 
-        // Update the display value
+        // Обновляем отображаемое значение
         const valueDisplay = rangeInput.nextElementSibling;
         if (valueDisplay?.classList.contains("skill-value")) {
           valueDisplay.textContent = newValue + "%";
         }
 
-        // Update average and save to storage
+        // Обновляем среднее значение и сохраняем в хранилище
         updateAverageValue();
         saveSkillsIndexToStorage();
       }
