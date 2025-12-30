@@ -45,10 +45,46 @@ function initBodyBackgroundInteraction() {
   // На тач-устройствах фон остаётся просто с автономной анимацией (без курсора).
 }
 
+/**
+ * Инициализация плавного скроллинга для якорных ссылок
+ */
+function initSmoothScrolling() {
+  // Получаем все якорные ссылки в документе
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+
+  // Добавляем обработчик клика для каждой якорной ссылки
+  anchorLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      // Предотвращаем стандартное поведение браузера
+      e.preventDefault();
+
+      // Получаем ID целевой секции из атрибута href
+      const targetId = this.getAttribute("href");
+      const targetSection = document.querySelector(targetId);
+
+      // Если целевая секция существует
+      if (targetSection) {
+        // Вычисляем позицию для скролла с учетом высоты хедера
+        const headerHeight = document.querySelector(".site-header")
+          ? document.querySelector(".site-header").offsetHeight
+          : 0;
+        const targetPosition = targetSection.offsetTop - headerHeight;
+
+        // Выполняем плавный скролл к целевой позиции
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initBodyBackgroundInteraction();
   initSkillsSection();
   initSkillsIndex();
+  initSmoothScrolling();
 });
 
 /**

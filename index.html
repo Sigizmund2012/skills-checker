@@ -3,74 +3,92 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Личный сайт разработчика</title>
+    <title>Личный сайт разработчика Smartfreelancer</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <section class="hero">
-      <div class="hero-content">
-        <h1 class="hero-name">Сергей</h1>
-        <p class="hero-bio">
-          Разработчик, увлечённый созданием современных веб-приложений и
-          изучением искусственного интеллекта.
-        </p>
-        <h2 class="hero-subtitle">Мой путь в IT + AI</h2>
-        <a href="#skills" class="cta-button">Мои навыки</a>
-      </div>
-    </section>
+    <header class="site-header">
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#hero" class="nav-link">Главная</a></li>
+          <li class="nav-item">
+            <a href="#skills" class="nav-link">Навыки</a>
+          </li>
+          <li class="nav-item">
+            <a href="#skills-index" class="nav-link">Индекс навыков</a>
+          </li>
+          <li class="nav-item">
+            <a href="#contacts" class="nav-link">Контакты</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="hero" class="hero">
+        <div class="hero-content">
+          <h1 class="hero-name">Сергей</h1>
+          <p class="hero-bio">
+            Разработчик, увлечённый созданием современных веб-приложений и
+            изучением искусственного интеллекта.
+          </p>
+          <h2 class="hero-subtitle">Мой путь в IT + AI</h2>
+          <a href="#skills" class="cta-button">Мои навыки</a>
+        </div>
+      </section>
 
-    <section id="skills" class="skills-section">
-      <div class="skills-container">
-        <h2 class="skills-title">Мои навыки</h2>
-        <div class="skills-grid" id="skillsGrid"></div>
-        <button class="add-skill-button" id="addSkillButton">
-          Добавить навык
-        </button>
-      </div>
-    </section>
+      <section id="skills" class="skills-section">
+        <div class="skills-container">
+          <h2 class="skills-title">Мои навыки</h2>
+          <div class="skills-grid" id="skillsGrid"></div>
+          <button class="add-skill-button" id="addSkillButton">
+            Добавить навык
+          </button>
+        </div>
+      </section>
 
-    <section id="skills-index" class="skills-index-section">
-      <div class="skills-index-container">
-        <h2 class="skills-index-title">Мой индекс навыков</h2>
-        <div class="skills-index-content">
-          <div class="skills-index-sliders"></div>
+      <section id="skills-index" class="skills-index-section">
+        <div class="skills-index-container">
+          <h2 class="skills-index-title">Мой индекс навыков</h2>
+          <div class="skills-index-content">
+            <div class="skills-index-sliders"></div>
 
-          <div class="skills-index-result">
-            <div class="average-container">
-              <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            <div class="skills-index-result">
+              <div class="average-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="average-value" id="averageValue">0%</div>
               </div>
-              <div class="average-value" id="averageValue">0%</div>
-            </div>
-            <div class="level-description" id="levelDescription">
-              Начинающий, верный старт
+              <div class="level-description" id="levelDescription">
+                Начинающий, верный старт
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="contacts-section">
-      <div class="contacts-container">
-        <h2 class="contacts-title">Мои контакты</h2>
-        <div class="contacts-content">
-          <p class="contacts-description">
-            Вы можете связаться со мной через Telegram для обсуждения проектов,
-            сотрудничества или любых вопросов.
-          </p>
-          <a
-            href="https://t.me/sergey_segeda"
-            class="telegram-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="telegram-icon">📱</span>
-            @sergey_segeda
-          </a>
+      <section id="contacts" class="contacts-section">
+        <div class="contacts-container">
+          <h2 class="contacts-title">Мои контакты</h2>
+          <div class="contacts-content">
+            <p class="contacts-description">
+              Вы можете связаться со мной через Telegram для обсуждения
+              проектов, сотрудничества или любых вопросов.
+            </p>
+            <a
+              href="https://t.me/sergey_segeda"
+              class="telegram-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="telegram-icon">📱</span>
+              @sergey_segeda
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
+    </main>
+    <footer></footer>
     <script src="script.js"></script>
   </body>
 </html>
