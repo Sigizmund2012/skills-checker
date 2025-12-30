@@ -7,24 +7,28 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <nav class="main-nav">
+    <header class="site-header" role="banner">
+      <nav class="main-nav" role="navigation" aria-label="Основная навигация">
         <ul class="nav-list">
-          <li class="nav-item"><a href="#hero" class="nav-link">Главная</a></li>
           <li class="nav-item">
-            <a href="#skills" class="nav-link">Навыки</a>
+            <a href="#hero" class="nav-link" role="menuitem">Главная</a>
           </li>
           <li class="nav-item">
-            <a href="#skills-index" class="nav-link">Индекс навыков</a>
+            <a href="#skills" class="nav-link" role="menuitem">Навыки</a>
           </li>
           <li class="nav-item">
-            <a href="#contacts" class="nav-link">Контакты</a>
+            <a href="#skills-index" class="nav-link" role="menuitem"
+              >Индекс навыков</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#contacts" class="nav-link" role="menuitem">Контакты</a>
           </li>
         </ul>
       </nav>
     </header>
-    <main>
-      <section id="hero" class="hero">
+    <main role="main">
+      <section id="hero" class="hero" aria-label="Главный раздел">
         <div class="hero-content">
           <h1 class="hero-name">Сергей</h1>
           <p class="hero-bio">
@@ -36,17 +40,21 @@
         </div>
       </section>
 
-      <section id="skills" class="skills-section">
+      <section id="skills" class="skills-section" aria-label="Раздел навыков">
         <div class="skills-container">
           <h2 class="skills-title">Мои навыки</h2>
-          <div class="skills-grid" id="skillsGrid"></div>
+          <ul class="skills-grid" id="skillsGrid"></ul>
           <button class="add-skill-button" id="addSkillButton">
             Добавить навык
           </button>
         </div>
       </section>
 
-      <section id="skills-index" class="skills-index-section">
+      <section
+        id="skills-index"
+        class="skills-index-section"
+        aria-label="Индекс навыков"
+      >
         <div class="skills-index-container">
           <h2 class="skills-index-title">Мой индекс навыков</h2>
           <div class="skills-index-content">
@@ -54,10 +62,18 @@
 
             <div class="skills-index-result">
               <div class="average-container">
-                <div class="progress-bar">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                >
                   <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <div class="average-value" id="averageValue">0%</div>
+                <div class="average-value" id="averageValue" aria-live="polite">
+                  0%
+                </div>
               </div>
               <div class="level-description" id="levelDescription">
                 Начинающий, верный старт
@@ -67,7 +83,7 @@
         </div>
       </section>
 
-      <section id="contacts" class="contacts-section">
+      <section id="contacts" class="contacts-section" aria-label="Контакты">
         <div class="contacts-container">
           <h2 class="contacts-title">Мои контакты</h2>
           <div class="contacts-content">
@@ -80,18 +96,20 @@
               class="telegram-link"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Telegram профиль Сергей Сегеда"
             >
-              <span class="telegram-icon">📱</span>
-              @sergey_segeda
+              <span class="telegram-icon" aria-hidden="true">📱</span
+              >@sergey_segeda
             </a>
           </div>
         </div>
       </section>
     </main>
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
       <div class="footer-content">
         <p class="copyright-text">
-          &copy; <span id="currentYear"></span> Smartfreelancer
+          <span aria-hidden="true">&copy;</span
+          ><span id="currentYear"></span> Smartfreelancer
         </p>
       </div>
     </footer>
