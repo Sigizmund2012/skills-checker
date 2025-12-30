@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initSkillsSection();
   initSkillsIndex();
   initSmoothScrolling();
+  updateCurrentYear();
 });
 
 /**
@@ -679,5 +680,16 @@ function loadSkillsIndexFromStorage() {
     }
   } catch (error) {
     console.error("Ошибка при загрузке индекса навыков:", error);
+  }
+}
+
+/**
+ * Обновление текущего года в футере
+ */
+function updateCurrentYear() {
+  const currentYearElement = document.getElementById("currentYear");
+  if (currentYearElement) {
+    const currentYear = new Date().getFullYear();
+    currentYearElement.textContent = currentYear;
   }
 }
