@@ -217,6 +217,36 @@ function createSkillCard(skill) {
  */
 function toggleLearnedStatus(card) {
   card.classList.toggle("learned");
+
+  // Get the skill name from the card
+  const nameElement = card.querySelector("h3");
+  if (nameElement) {
+    const skillName = nameElement.textContent.trim();
+
+    // Find the corresponding slider
+    const skillSlider = document.querySelector(
+      `.skill-slider[data-skill="${skillName}"]`
+    );
+    if (skillSlider) {
+      const rangeInput = skillSlider.querySelector(".skill-range");
+      if (rangeInput) {
+        // Set slider value based on learned status
+        const newValue = card.classList.contains("learned") ? 100 : 0;
+        rangeInput.value = newValue;
+
+        // Update the display value
+        const valueDisplay = rangeInput.nextElementSibling;
+        if (valueDisplay?.classList.contains("skill-value")) {
+          valueDisplay.textContent = newValue + "%";
+        }
+
+        // Update average and save to storage
+        updateAverageValue();
+        saveSkillsIndexToStorage();
+      }
+    }
+  }
+
   saveSkillsToStorage();
 }
 
@@ -301,6 +331,23 @@ function loadSkillsFromStorage() {
 
       // Убедимся, что для каждого навыка есть слайдер в индексе
       addSkillToIndex(skill.name);
+
+      // Синхронизируем слайдер с состоянием "изученный"
+      if (skill.learned) {
+        const skillSlider = document.querySelector(
+          `.skill-slider[data-skill="${skill.name}"]`
+        );
+        if (skillSlider) {
+          const rangeInput = skillSlider.querySelector(".skill-range");
+          if (rangeInput) {
+            rangeInput.value = 100;
+            const valueDisplay = rangeInput.nextElementSibling;
+            if (valueDisplay?.classList.contains("skill-value")) {
+              valueDisplay.textContent = "100%";
+            }
+          }
+        }
+      }
     });
 
     // Обновляем среднее значение после загрузки всех навыков
@@ -344,6 +391,23 @@ function addDemoSkillsFromIndex() {
   // Создаем карточки для демо-навыков
   demoSkills.forEach((skill) => {
     createSkillCard(skill);
+
+    // Синхронизируем слайдер с состоянием "изученный" для демо-навыков
+    if (skill.learned) {
+      const skillSlider = document.querySelector(
+        `.skill-slider[data-skill="${skill.name}"]`
+      );
+      if (skillSlider) {
+        const rangeInput = skillSlider.querySelector(".skill-range");
+        if (rangeInput) {
+          rangeInput.value = 100;
+          const valueDisplay = rangeInput.nextElementSibling;
+          if (valueDisplay?.classList.contains("skill-value")) {
+            valueDisplay.textContent = "100%";
+          }
+        }
+      }
+    }
   });
 
   // Обновляем среднее значение после добавления всех слайдеров
