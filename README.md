@@ -88,13 +88,13 @@ result-site-maraphon/
 1. Клонируйте репозиторий:
 
    ```bash
-   git clone https://github.com/ваш-репозиторий/result-site-maraphon.git
+   git clone https://github.com/Sigizmund2012/skills-checker
    ```
 
 2. Перейдите в директорию проекта:
 
    ```bash
-   cd result-site-maraphon
+   cd skills-checker
    ```
 
 3. Откройте файл `index.html` в вашем браузере
